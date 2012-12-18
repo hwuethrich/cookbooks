@@ -24,6 +24,8 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #
 
+chef_gem 'ruby-shadow'
+
 active_groups =
   Array(node[:users][:active_groups] || node[:active_groups]) | Array(node[:users][:supergroup])
 
@@ -80,6 +82,7 @@ active_users.each do |u|
     gid node[:users][:force_default_group] || u[:gid]
     shell u[:shell] == true ? nil : u[:shell]
     comment u[:comment]
+    password u[:password]
     supports :manage_home => true
     home home_dir
     notifies :create, "ruby_block[reset group list]", :immediately
